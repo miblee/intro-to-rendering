@@ -13,5 +13,32 @@
 <body>
   <h1>Hello from Public</h1>
 
+
+  <template id = "list">
+    <ul>
+      {{#each list}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </template>
+
+  <script>
+  // do an XHR to '/list.json' use handlebars template to render data
+  $.get('/list.json', function(res){
+    // var list = res.data.list;
+    render({ list: res.data.list });
+  })
+  function render(){
+    var htmlTemplate = $('#list').html(); // this gets a string of HTML
+    var renderTemplate = Handlebars.compile(htmlTemplate); // this returns a function
+    // renderTemplate({name: 'Mulder'}); // this returns a string
+    var locals = {
+      list: ['Mulder', "Scully"]
+    }
+    var html = renderTemplate(locals)
+    $('body').append(html);
+  }
+  render();
+  </script>
 </body>
 </html>
